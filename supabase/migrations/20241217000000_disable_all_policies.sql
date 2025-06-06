@@ -39,6 +39,6 @@ drop policy if exists "Users can delete their own error logs" on public.generati
 -- Note: Uncomment the lines below if you also want to disable RLS entirely on these tables
 -- This will allow unrestricted access without any row-level security checks
 
--- alter table public.generations disable row level security;
--- alter table public.flashcards disable row level security;
--- alter table public.generation_error_logs disable row level security; 
+alter table public.generations disable row level security;
+alter table public.flashcards disable row level security;
+alter table public.generation_error_logs disable row level security; 
