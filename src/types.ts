@@ -117,3 +117,17 @@ export type GenerationErrorLogDto = Pick<
   GenerationErrorLog,
   "id" | "error_code" | "error_message" | "model" | "source_text_hash" | "source_text_length" | "created_at" | "user_id"
 >;
+
+// ------------------------------------------------------------------------------------------------
+// 11. Frontend ViewModels
+//     Types used specifically for frontend state management and UI rendering
+// ------------------------------------------------------------------------------------------------
+export interface FlashcardProposalViewModel {
+  id: string;                // unique identifier (e.g. index)
+  front: string;
+  back: string;
+  source: 'ai-full' | 'ai-edited';
+  generationId: number;
+  status: 'accepted' | 'rejected' | 'pending';
+  validationErrors?: { front?: string; back?: string };
+}

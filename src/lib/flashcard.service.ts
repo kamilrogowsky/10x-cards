@@ -1,10 +1,10 @@
-import type { SupabaseClient } from "../../db/supabase.client";
-import { DEFAULT_USER_ID } from "../../db/supabase.client";
+import type { SupabaseClient } from "../db/supabase.client";
+import { DEFAULT_USER_ID } from "../db/supabase.client";
 import type { 
   FlashcardsCreateCommand, 
   FlashcardDto,
   FlashcardInsert
-} from "../../types";
+} from "../types";
 
 /**
  * Service for handling flashcard operations
