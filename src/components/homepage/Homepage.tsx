@@ -66,7 +66,7 @@ export const Homepage: React.FC<HomepageProps> = ({ user }) => {
       {/* Call to Action Section */}
       <div id="get-started" className="scroll-mt-4">
         <CallToActionSection 
-          cta={data?.cta || { title: '', description: '', login_url: '' }} 
+          cta={data?.cta || { title: 'Zacznij już dziś', description: 'Zaloguj się i zacznij generować fiszki w kilka minut', login_url: '/login' }} 
           isLoading={isLoading} 
         />
       </div>
