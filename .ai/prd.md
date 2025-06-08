@@ -19,8 +19,8 @@ Manualne tworzenie wysokiej jakości fiszek wymaga dużych nakładów czasu i wy
    - Ręczne tworzenie i wyświetlanie w ramach widoku listy "Moje fiszki"
 
 3. Podstawowy system uwierzytelniania i kont użytkowników:
-   - Rejestracja i logowanie.
-   - Możliwość usunięcia konta i powiązanych fiszek na życzenie.
+   - Możliwość logowania.
+   - Możliwość usunięcia powiązanych fiszek na życzenie.
 
 4. Integracja z algorytmem powtórek:
    - Zapewnienie mechanizmu przypisywania fiszek do harmonogramu powtórek (korzystanie z gotowego algorytmu).
@@ -50,14 +50,6 @@ Manualne tworzenie wysokiej jakości fiszek wymaga dużych nakładów czasu i wy
 ## 5. Historyjki użytkowników
 
 ID: US-001
-Tytuł: Rejestracja konta
-Opis: Jako nowy użytkownik chcę się zarejestrować, aby mieć dostęp do własnych fiszek i móc korzystać z generowania fiszek przez AI.
-Kryteria akceptacji:
-- Formularz rejestracyjny zawiera pola na adres e-mail i hasło.
-- Po poprawnym wypełnieniu formularza i weryfikacji danych konto jest aktywowane.
-- Użytkownik otrzymuje potwierdzenie pomyślnej rejestracji i zostaje zalogowany.
-
-ID: US-002
 Tytuł: Logowanie do aplikacji
 Opis: Jako zarejestrowany użytkownik chcę móc się zalogować, aby mieć dostęp do moich fiszek i historii generowania.
 Kryteria akceptacji:
@@ -65,7 +57,7 @@ Kryteria akceptacji:
 - Błędne dane logowania wyświetlają komunikat o nieprawidłowych danych.
 - Dane dotyczące logowania przechowywane są w bezpieczny sposób.
 
-ID: US-003
+ID: US-002
 Tytuł: Generowanie fiszek przy użyciu AI
 Opis: Jako zalogowany użytkownik chcę wkleić kawałek tekstu i za pomocą przycisku wygenerować propozycje fiszek, aby zaoszczędzić czas na ręcznym tworzeniu pytań i odpowiedzi.
 Kryteria akceptacji:
@@ -74,7 +66,7 @@ Kryteria akceptacji:
 - Po kliknięciu przycisku generowania aplikacja komunikuje się z API modelu LLM i wyświetla listę wygenerowanych propozycji fiszek do akceptacji przez użytkownika.
 - W przypadku problemów z API lub braku odpowiedzi modelu użytkownik zobaczy stosowny komunikat o błędzie.
 
-ID: US-004
+ID: US-003
 Tytuł: Przegląd i zatwierdzanie propozycji fiszek
 Opis: Jako zalogowany użytkownik chcę móc przeglądać wygenerowane fiszki i decydować, które z nich chcę dodać do mojego zestawu, aby zachować tylko przydatne pytania i odpowiedzi.
 Kryteria akceptacji:
@@ -82,7 +74,7 @@ Kryteria akceptacji:
 - Przy każdej fiszce znajduje się przycisk pozwalający na jej zatwierdzenie, edycję lub odrzucenie.
 - Po zatwierdzeniu wybranych fiszek użytkownik może kliknąć przycisk zapisu i dodać je do bazy danych.
 
-ID: US-005
+ID: US-004
 Tytuł: Edycja fiszek utworzonych ręcznie i generowanych przez AI
 Opis: Jako zalogowany użytkownik chcę edytować stworzone lub wygenerowane fiszki, aby poprawić ewentualne błędy lub dostosować pytania i odpowiedzi do własnych potrzeb.
 Kryteria akceptacji:
@@ -90,7 +82,7 @@ Kryteria akceptacji:
 - Każdą fiszkę można kliknąć i wejść w tryb edycji.
 - Zmiany są zapisywane w bazie danych po zatwierdzeniu.
 
-ID: US-006
+ID: US-005
 Tytuł: Usuwanie fiszek
 Opis: Jako zalogowany użytkownik chcę usuwać zbędne fiszki, aby zachować porządek w moim zestawie.
 Kryteria akceptacji:
@@ -98,7 +90,7 @@ Kryteria akceptacji:
 - Po wybraniu usuwania użytkownik musi potwierdzić operację, zanim fiszka zostanie trwale usunięta.
 - Fiszki zostają trwale usunięte z bazy danych po potwierdzeniu.
 
-ID: US-007
+ID: US-006
 Tytuł: Ręczne tworzenie fiszek
 Opis: Jako zalogowany użytkownik chcę ręcznie stworzyć fiszkę (określając przód i tył fiszki), aby dodawać własny materiał, który nie pochodzi z automatycznie generowanych treści.
 Kryteria akceptacji:
@@ -106,7 +98,7 @@ Kryteria akceptacji:
 - Naciśnięcie przycisku otwiera formularz z polami "Przód" i "Tył".
 - Po zapisaniu nowa fiszka pojawia się na liście.
 
-ID: US-008
+ID: US-007
 Tytuł: Sesja nauki z algorytmem powtórek
 Opis: Jako zalogowany użytkownik chcę, aby dodane fiszki były dostępne w widoku "Sesja nauki" opartym na zewnętrznym algorytmie, aby móc efektywnie się uczyć (spaced repetition).
 Kryteria akceptacji:
@@ -115,7 +107,7 @@ Kryteria akceptacji:
 - Użytkownik ocenia zgodnie z oczekiwaniami algorytmu na ile przyswoił fiszkę
 - Następnie algorytm pokazuje kolejną fiszkę w ramach sesji nauki
 
-ID: US-009
+ID: US-008
 Tytuł: Bezpieczny dostęp i autoryzacja
 Opis: Jako zalogowany użytkownik chcę mieć pewność, że moje fiszki nie są dostępne dla innych użytkowników, aby zachować prywatność i bezpieczeństwo danych.
 Kryteria akceptacji:
@@ -128,3 +120,19 @@ Kryteria akceptacji:
    - Użytkownicy tworzą co najmniej 75% fiszek z wykorzystaniem AI (w stosunku do wszystkich nowo dodanych fiszek).
 3. Zaangażowanie:
    - Monitorowanie liczby wygenerowanych fiszek i porównanie z liczbą zatwierdzonych do analizy jakości i użyteczności.
+
+   ## 7. Użytkownik niezalogowany a zalogowany
+1. Użytkownik niezalogowany posiada dostęp wyłącznie do:
+   - Strona główna (/) - informacje o aplikacji i jej funkcjonalnościach.
+   - Strona logowania (/login) - logowanie do systemu.
+3. Użytkownik zalogowany posiada dostęp do:
+   - strony generowania fiszek (/generate)
+   - swojej listy fiszek (/flashcards)
+
+   ## 8. Użytkownik niezalogowany a zalogowany
+1. Użytkownik niezalogowany posiada dostęp wyłącznie do:
+   - Strona główna (/) - informacje o aplikacji i jej funkcjonalnościach.
+   - Strona logowania (/login) - logowanie do systemu.
+3. Użytkownik zalogowany posiada dostęp do:
+   - strony generowania fiszek (/generate)
+   - swojej listy fiszek (/flashcards)

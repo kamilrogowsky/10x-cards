@@ -26,6 +26,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Get OpenRouter API key from environment
+    const openRouterApiKey = import.meta.env.OPENROUTER_API_KEY;
+    if (!openRouterApiKey) {
+      return new Response(
+        JSON.stringify({ error: "OpenRouter API key not configured" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     // Parse and validate request body
     let body: unknown;
     try {
@@ -53,8 +62,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const { source_text } = validation.data;
 
-    // Create generation service instance
-    const generationService = new GenerationService(supabase);
+    // Create generation service instance with OpenRouter API key
+    const generationService = new GenerationService(supabase, openRouterApiKey);
     
     // Generate flashcards using the service
     const result = await generationService.generateFlashcards({ source_text });

@@ -20,6 +20,44 @@
 
 ## 2. Endpoints
 
+### 2.1. Homepage
+
+- **GET `/`**
+  - **Description**: Retrieve homepage content and application information.
+  - **Authentication**: No authentication - endpoint works for both authenticated and unauthenticated users.
+  - **Business Logic**:
+    - Return general application information, features overview, and call-to-action to login.
+  - **Response JSON**:
+    ```json
+    {
+      "app_info": {
+        "name": "10xCards",
+        "description": "AI-powered flashcard generation application",
+        "version": "1.0.0"
+      },
+      "features": [
+        {
+          "title": "AI Flashcard Generation",
+          "description": "Generate high-quality flashcards from any text using advanced AI models"
+        },
+        {
+          "title": "Manual Flashcard Creation",
+          "description": "Create and manage your own custom flashcards"
+        },
+        {
+          "title": "Spaced Repetition Learning",
+          "description": "Learn efficiently with scientifically-proven spaced repetition algorithm"
+        }
+      ],
+      "cta": {
+        "title": "Get Started Today",
+        "description": "Log in and start generating flashcards in minutes",
+        "login_url": "/login"
+      }
+    }
+    ```
+  - **Errors**: None - endpoint always returns 200 OK with appropriate content.
+
 ### 2.2. Flashcards
 
 - **GET `/flashcards`**
@@ -147,7 +185,7 @@
 
 - **Mechanism**: Token-based authentication using Supabase Auth.
 - **Process**:
-  - Users authenticate via `/auth/login` or `/auth/register`, receiving a bearer token.
+  - Users authenticate via `/auth/login`, receiving a bearer token.
   - Protected endpoints require the token in the `Authorization` header.
   - Database-level Row-Level Security (RLS) ensures that users access only records with matching `user_id`.
 - **Additional Considerations**: Use HTTPS, rate limiting, and secure error messaging to mitigate security risks.

@@ -6,13 +6,63 @@ import type {
   GenerationCreateResponseDto,
   Generation
 } from "../types";
+import { OpenRouterService } from "./openrouter.service";
 import crypto from "crypto";
 
 /**
- * Service for handling flashcard generation using AI (with mocks for development)
+ * Service for handling flashcard generation using AI
  */
 export class GenerationService {
-  constructor(private supabase: SupabaseClient) {}
+  private openRouterService: OpenRouterService;
+
+  constructor(
+    private supabase: SupabaseClient,
+    openRouterApiKey: string
+  ) {
+    this.openRouterService = new OpenRouterService({
+      apiKey: openRouterApiKey,
+    });
+    
+    // Set up the system prompt for flashcard generation
+    this.openRouterService.setSystemMessage(`
+You are an expert educational content creator specializing in creating high-quality flashcards for learning.
+
+Your task is to analyze the provided text and create effective flashcards that help students learn and remember key concepts, facts, and relationships.
+
+Guidelines for creating flashcards:
+1. Create clear, concise questions that test understanding
+2. Provide complete, accurate answers
+3. Focus on the most important concepts and facts
+4. Use varied question types (definitions, explanations, examples, applications)
+5. Ensure questions are specific and unambiguous
+6. Make answers complete but not overly lengthy
+
+Create 2-10 flashcards depending on the length and complexity of the content.
+Each flashcard should have a "front" (question) and "back" (answer).
+    `.trim());
+
+    // Set up the response format schema
+    this.openRouterService.setResponseFormat({
+      name: "flashcards",
+      schema: {
+        type: "object",
+        properties: {
+          flashcards: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                front: { type: "string" },
+                back: { type: "string" },
+              },
+              required: ["front", "back"],
+            },
+          },
+        },
+        required: ["flashcards"],
+      },
+    });
+  }
   
   private get userId(): string {
     return DEFAULT_USER_ID;
@@ -31,8 +81,8 @@ export class GenerationService {
         .update(command.source_text)
         .digest("hex");
 
-      // Mock AI call - in production this would call actual AI service
-      const flashcardsProposals = await this.mockAICall(command.source_text);
+      // Generate flashcards using OpenRouter
+      const flashcardsProposals = await this.generateFlashcardsWithAI(command.source_text);
       const generatedCount = flashcardsProposals.length;
       const generationDuration = Date.now() - startTime;
 
@@ -41,7 +91,7 @@ export class GenerationService {
         .from("generations")
         .insert({
           user_id: this.userId,
-          model: "gpt-4", // In production: actual model name
+          model: "qwen/qwen3-235b-a22b:free", // Current model from OpenRouter service
           source_text_hash: sourceTextHash,
           source_text_length: command.source_text.length,
           generated_count: generatedCount,
@@ -75,32 +125,35 @@ export class GenerationService {
   }
 
   /**
-   * Mock AI service call - replaces actual AI integration during development
+   * Generate flashcards using OpenRouter AI service
    */
-  private async mockAICall(sourceText: string): Promise<FlashcardProposalDto[]> {
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+  private async generateFlashcardsWithAI(sourceText: string): Promise<FlashcardProposalDto[]> {
+    try {
+      // Set the user message with the source text
+      this.openRouterService.setUserMessage(`
+Please create flashcards based on the following text:
 
-    // Simulate occasional failures (5% chance)
-    if (Math.random() < 0.05) {
-      throw new Error("AI service temporarily unavailable");
+${sourceText}
+      `.trim());
+
+      // Get response from AI
+      const response = await this.openRouterService.sendChatMessage();
+      
+      // Parse the JSON response
+      const parsedResponse = JSON.parse(response);
+      
+      // Transform AI response to our DTO format
+      const flashcards: FlashcardProposalDto[] = parsedResponse.flashcards.map((card: any) => ({
+        front: card.front,
+        back: card.back,
+        source: "ai-full" as const,
+      }));
+
+      return flashcards;
+    } catch (error) {
+      console.error("Error generating flashcards with AI:", error);
+      throw new Error(`Failed to generate flashcards: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
-
-    // Generate mock flashcards based on text length
-    const wordCount = sourceText.split(/\s+/).length;
-    const flashcardCount = Math.min(Math.max(Math.floor(wordCount / 100), 2), 10);
-
-    const mockFlashcards: FlashcardProposalDto[] = [];
-    
-    for (let i = 1; i <= flashcardCount; i++) {
-      mockFlashcards.push({
-        front: `Question ${i} - What is the key concept from section ${i}?`,
-        back: `Answer ${i} - This is a mock answer generated from the provided text. In production, this would be an AI-generated response based on the actual content.`,
-        source: "ai-full",
-      });
-    }
-
-    return mockFlashcards;
   }
 
   /**
@@ -121,7 +174,7 @@ export class GenerationService {
         user_id: this.userId,
         error_code: error.name || "UNKNOWN_ERROR",
         error_message: error.message || "Unknown error occurred",
-        model: "gpt-4",
+        model: "qwen/qwen3-235b-a22b:free",
         source_text_hash: sourceTextHash,
         source_text_length: sourceText.length,
       });

@@ -6,11 +6,18 @@ Interfejs użytkownika jest zbudowany wokół widoku generowania fiszek dostępn
 
 ## 2. Lista widoków
 
+- **Strona główna / homepage**
+  - **Ścieżka:** `/`
+  - **Główny cel:** Wyświetlenie strony startowej aplikacji.
+  - **Kluczowe informacje:** Wyświetla ogólne informacje o aplikacji, jej funkcjonalności i zachęca do zalogowania się.
+  - **Kluczowe komponenty:** Brak
+  - **UX, dostępność i względy bezpieczeństwa:** Dostępne dla użytkowników niezalogowanych oraz zalogowanych
+
 - **Ekran uwierzytelniania**
-  - **Ścieżka:** `/login` i `/register`
-  - **Główny cel:** Umożliwienie użytkownikowi logowania oraz rejestracji.
+  - **Ścieżka:** `/login`
+  - **Główny cel:** Umożliwienie użytkownikowi logowania.
   - **Kluczowe informacje:** Formularze z polami e-mail i hasło; wiadomości o błędach uwierzytelniania.
-  - **Kluczowe komponenty:** Formularz logowania/rejestracji, komponent walidacji, przyciski, komunikaty błędów.
+  - **Kluczowe komponenty:** Formularz logowania, komponent walidacji, przyciski, komunikaty błędów.
   - **UX, dostępność i względy bezpieczeństwa:** Prosty formularz, czytelne komunikaty błędów, obsługa klawiatury, zabezpieczenia JWT.
 
 - **Widok generowania fiszek**

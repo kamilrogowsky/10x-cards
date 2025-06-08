@@ -131,3 +131,30 @@ export interface FlashcardProposalViewModel {
   status: 'accepted' | 'rejected' | 'pending';
   validationErrors?: { front?: string; back?: string };
 }
+
+// ------------------------------------------------------------------------------------------------
+// Homepage Response DTOs
+//     Types used specifically for the homepage endpoint (GET /)
+// ------------------------------------------------------------------------------------------------
+export interface AppInfoDto {
+  name: string;
+  description: string;
+  version: string;
+}
+
+export interface FeatureDto {
+  title: string;
+  description: string;
+}
+
+export interface CtaDto {
+  title: string;
+  description: string;
+  login_url: string;
+}
+
+export interface HomepageResponseDto {
+  app_info: AppInfoDto;
+  features: FeatureDto[];
+  cta: CtaDto;
+}
