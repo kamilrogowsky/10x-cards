@@ -5,7 +5,14 @@ import { HeroSection } from './HeroSection';
 import { FeaturesSection } from './FeaturesSection';
 import { CallToActionSection } from './CallToActionSection';
 
-export const Homepage: React.FC = () => {
+interface HomepageProps {
+  user?: {
+    id: string;
+    email: string;
+  };
+}
+
+export const Homepage: React.FC<HomepageProps> = ({ user }) => {
   const { data, isLoading, error } = useHomepageData();
 
   // Error boundary style error handling
@@ -35,7 +42,8 @@ export const Homepage: React.FC = () => {
       {/* Top Bar */}
       <TopBar 
         cta={data?.cta} 
-        isLoading={isLoading} 
+        isLoading={isLoading}
+        user={user} 
       />
       
       <main className="min-h-screen">

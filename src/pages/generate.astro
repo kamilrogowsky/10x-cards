@@ -1,8 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import GenerateFlashcardsContainer from "../components/generate/GenerateFlashcardsContainer";
+import { TopBar } from "../components/TopBar";
+import { ErrorBoundary } from "../components/ErrorBoundary";
+
+// Get user information from middleware
+const user = Astro.locals.user;
 ---
 
 <Layout title="Generuj fiszki - 10xCards">
-  <GenerateFlashcardsContainer client:load />
+  <ErrorBoundary client:load>
+    <TopBar client:load user={user} />
+    <main className="pt-16">
+      <GenerateFlashcardsContainer client:load />
+    </main>
+  </ErrorBoundary>
 </Layout> 

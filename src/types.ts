@@ -158,3 +158,12 @@ export interface HomepageResponseDto {
   features: FeatureDto[];
   cta: CtaDto;
 }
+
+// ------------------------------------------------------------------------------------------------
+// Authentication DTOs
+//     Types used for authentication endpoints and forms
+// ------------------------------------------------------------------------------------------------
+export interface LoginDTO {
+  email: string;
+  password: string;
+}

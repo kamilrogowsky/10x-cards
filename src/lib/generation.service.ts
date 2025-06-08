@@ -1,5 +1,4 @@
 import type { SupabaseClient } from "../db/supabase.client";
-import { DEFAULT_USER_ID } from "../db/supabase.client";
 import type { 
   GenerateFlashcardsCommand, 
   FlashcardProposalDto, 
@@ -17,6 +16,7 @@ export class GenerationService {
 
   constructor(
     private supabase: SupabaseClient,
+    private userId: string,
     openRouterApiKey: string
   ) {
     this.openRouterService = new OpenRouterService({
@@ -62,10 +62,6 @@ Each flashcard should have a "front" (question) and "back" (answer).
         required: ["flashcards"],
       },
     });
-  }
-  
-  private get userId(): string {
-    return DEFAULT_USER_ID;
   }
 
   /**

@@ -2,10 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import { Homepage } from "../components/homepage/Homepage";
 import { ErrorBoundary } from "../components/ErrorBoundary";
+
+// Get user information from middleware
+const user = Astro.locals.user;
 ---
 
 <Layout title="10xCards - Generowanie Fiszek przez AI" description="Przekształć dowolny tekst w wysokiej jakości fiszki przy użyciu zaawansowanej sztucznej inteligencji. Ucz się efektywnie dzięki naukowo potwierdzonemu systemowi powtarzania przestankowego.">
   <ErrorBoundary client:load>
-    <Homepage client:load />
+    <Homepage client:load user={user} />
   </ErrorBoundary>
 </Layout>

@@ -28,7 +28,7 @@ Interfejs użytkownika jest zbudowany wokół widoku generowania fiszek dostępn
   - **UX, dostępność i względy bezpieczeństwa:** Intuicyjny formularz, walidacja długości tekstu (1000-10000 znaków), responsywność, czytelne komunikaty i inline komunikaty o błędach.
 
 - **Widok listy fiszek (Moje fiszki)**
-  - **Ścieżka:** `/flashcards`
+  - **Ścieżka:** `/library`
   - **Główny cel:** Przegląd, edycja oraz usuwanie zapisanych fiszek.
   - **Kluczowe informacje:** Lista zapisanych fiszek z informacjami o pytaniu i odpowiedzi.
   - **Kluczowe komponenty:** Lista elementów, komponent modal edycji, przyciski usuwania (potwierdzenie operacji).

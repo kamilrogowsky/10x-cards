@@ -5,9 +5,13 @@ import type { CtaDto } from '@/types';
 interface TopBarProps {
   cta?: CtaDto;
   isLoading?: boolean;
+  user?: {
+    id: string;
+    email: string;
+  };
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false }) => {
+export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) => {
   const handleLoginClick = () => {
     if (cta?.login_url) {
       window.location.href = cta.login_url;
@@ -17,8 +21,26 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false }) => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        // Redirect to home page after logout
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   const handleLogoClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.location.href = '/';
   };
 
   return (
@@ -42,20 +64,63 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false }) => {
             </button>
           </div>
 
-          {/* Login Button */}
-          <div className="flex items-center">
-            {isLoading ? (
-              <div className="h-9 w-16 sm:w-20 bg-muted rounded-md animate-pulse" />
+          {/* Navigation */}
+          <div className="flex items-center gap-4">
+            {user ? (
+              <>
+                {/* Navigation Links for authenticated users */}
+                <nav className="hidden sm:flex items-center gap-2">
+                  <Button
+                    onClick={() => window.location.href = '/generate'}
+                    variant="ghost"
+                    size="sm"
+                    className="text-sm font-medium"
+                  >
+                    Generuj fiszki
+                  </Button>
+                  <Button
+                    onClick={() => window.location.href = '/library'}
+                    variant="ghost"
+                    size="sm"
+                    className="text-sm font-medium"
+                  >
+                    Moje fiszki
+                  </Button>
+                </nav>
+                
+                {/* User Menu */}
+                <div className="flex items-center gap-2">
+                  <span className="hidden sm:inline text-sm text-muted-foreground">
+                    {user.email}
+                  </span>
+                  <Button
+                    onClick={handleLogout}
+                    variant="outline"
+                    size="sm"
+                    className="px-3 sm:px-4 py-2 text-sm font-medium"
+                  >
+                    <span className="hidden sm:inline">Wyloguj się</span>
+                    <span className="sm:hidden">Wyloguj</span>
+                  </Button>
+                </div>
+              </>
             ) : (
-              <Button
-                onClick={handleLoginClick}
-                variant="default"
-                size="sm"
-                className="px-3 sm:px-4 py-2 text-sm font-medium transition-all duration-200 hover:scale-105 hover:shadow-md"
-              >
-                <span className="hidden sm:inline">Zaloguj się</span>
-                <span className="sm:hidden">Loguj</span>
-              </Button>
+              /* Login Button for unauthenticated users */
+              <>
+                {isLoading ? (
+                  <div className="h-9 w-16 sm:w-20 bg-muted rounded-md animate-pulse" />
+                ) : (
+                  <Button
+                    onClick={handleLoginClick}
+                    variant="default"
+                    size="sm"
+                    className="px-3 sm:px-4 py-2 text-sm font-medium transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  >
+                    <span className="hidden sm:inline">Zaloguj się</span>
+                    <span className="sm:hidden">Loguj</span>
+                  </Button>
+                )}
+              </>
             )}
           </div>
         </div>

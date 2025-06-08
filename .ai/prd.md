@@ -51,9 +51,11 @@ Manualne tworzenie wysokiej jakości fiszek wymaga dużych nakładów czasu i wy
 
 ID: US-001
 Tytuł: Logowanie do aplikacji
-Opis: Jako zarejestrowany użytkownik chcę móc się zalogować, aby mieć dostęp do moich fiszek i historii generowania.
+Opis: Jako użytkownik chcę mieć możliwość logowania się, aby mieć dostęp do widoku moich fiszek i widoku generowania fiszek przy użyciu AI.
 Kryteria akceptacji:
-- Po podaniu prawidłowych danych logowania użytkownik zostaje przekierowany do widoku generowania fiszek.
+- Użytkownik MOŻE wejść na stronę główną bez konieczności logowania się do systemu.
+- Użytkownik NIE MOŻE korzystać z widoku swoich fiszek oraz widoku do generowania fiszek przy użyciu AI bez logowania się do systemu.
+- Po podaniu prawidłowych danych logowania użytkownik zostaje przekierowany do strony głównej gdzie z górnego paska może wybrać na który widok chce przejść. W pasku górnym po zalogowaniu bedą widoczne opcje widoku swoich fiszek i widoku generowania fiszek przy użyciu AI.
 - Błędne dane logowania wyświetlają komunikat o nieprawidłowych danych.
 - Dane dotyczące logowania przechowywane są w bezpieczny sposób.
 
@@ -78,7 +80,7 @@ ID: US-004
 Tytuł: Edycja fiszek utworzonych ręcznie i generowanych przez AI
 Opis: Jako zalogowany użytkownik chcę edytować stworzone lub wygenerowane fiszki, aby poprawić ewentualne błędy lub dostosować pytania i odpowiedzi do własnych potrzeb.
 Kryteria akceptacji:
-- Istnieje lista zapisanych fiszek (zarówno ręcznie tworzonych, jak i zatwierdzonych wygenerowanych).
+- Istnieje lista (w widoku "Moje fiszki") zapisanych fiszek (zarówno ręcznie tworzonych, jak i zatwierdzonych wygenerowanych).
 - Każdą fiszkę można kliknąć i wejść w tryb edycji.
 - Zmiany są zapisywane w bazie danych po zatwierdzeniu.
 

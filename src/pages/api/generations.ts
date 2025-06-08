@@ -26,6 +26,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Get user ID from middleware authentication
+    const user = locals.user;
+    if (!user || !user.id) {
+      return new Response(
+        JSON.stringify({ error: "User not authenticated" }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     // Get OpenRouter API key from environment
     const openRouterApiKey = import.meta.env.OPENROUTER_API_KEY;
     if (!openRouterApiKey) {
@@ -62,8 +71,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const { source_text } = validation.data;
 
-    // Create generation service instance with OpenRouter API key
-    const generationService = new GenerationService(supabase, openRouterApiKey);
+    // Create generation service instance with user ID and OpenRouter API key
+    const generationService = new GenerationService(supabase, user.id, openRouterApiKey);
     
     // Generate flashcards using the service
     const result = await generationService.generateFlashcards({ source_text });
