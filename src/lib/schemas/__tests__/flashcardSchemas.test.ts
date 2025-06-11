@@ -220,7 +220,7 @@ describe("FlashcardSchemas", () => {
         source: "manual" as const,
         generation_id: null,
       }));
-      
+
       const invalidCommand = { flashcards };
 
       // Act
@@ -366,4 +366,4 @@ describe("FlashcardSchemas", () => {
       }
     });
   });
-}); 
+});
