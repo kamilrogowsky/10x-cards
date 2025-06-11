@@ -80,7 +80,7 @@ To set up the project on your local machine, please follow these steps:
 
 ## Project Scope
 
-This project aims to:
+This project aims to
 
 - Automate the generation of flashcards using AI.
 - Simplify and speed up the flashcard creation process from user-provided text.
