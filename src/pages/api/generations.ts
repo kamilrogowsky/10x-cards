@@ -18,30 +18,30 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Get supabase client from locals (set by middleware)
     const supabase = locals.supabase as SupabaseClient;
-    
+
     if (!supabase) {
-      return new Response(
-        JSON.stringify({ error: "Database connection not available" }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Database connection not available" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Get user ID from middleware authentication
     const user = locals.user;
     if (!user || !user.id) {
-      return new Response(
-        JSON.stringify({ error: "User not authenticated" }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "User not authenticated" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Get OpenRouter API key from environment
     const openRouterApiKey = import.meta.env.OPENROUTER_API_KEY;
     if (!openRouterApiKey) {
-      return new Response(
-        JSON.stringify({ error: "OpenRouter API key not configured" }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "OpenRouter API key not configured" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Parse and validate request body
@@ -49,10 +49,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     try {
       body = await request.json();
     } catch {
-      return new Response(
-        JSON.stringify({ error: "Invalid JSON in request body" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Invalid JSON in request body" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const validation = GenerateFlashcardsSchema.safeParse(body);
@@ -60,7 +60,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(
         JSON.stringify({
           error: "Validation failed",
-          details: validation.error.errors.map(err => ({
+          details: validation.error.errors.map((err) => ({
             field: err.path.join("."),
             message: err.message,
           })),
@@ -73,7 +73,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Create generation service instance with user ID and OpenRouter API key
     const generationService = new GenerationService(supabase, user.id, openRouterApiKey);
-    
+
     // Generate flashcards using the service
     const result = await generationService.generateFlashcards({ source_text });
 
@@ -81,12 +81,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
       status: 201,
       headers: { "Content-Type": "application/json" },
     });
-
   } catch (error) {
     console.error("Error in POST /generations:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
-}; 
+};

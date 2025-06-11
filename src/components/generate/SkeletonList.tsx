@@ -1,6 +1,6 @@
-import React from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export function SkeletonList() {
   return (
@@ -9,7 +9,7 @@ export function SkeletonList() {
         <h2 className="text-xl font-semibold mb-2">Generowanie fiszek...</h2>
         <p className="text-muted-foreground">AI analizuje twój tekst i tworzy fiszki</p>
       </div>
-      
+
       <div className="space-y-4">
         {Array.from({ length: 5 }).map((_, index) => (
           <Card key={index} className="w-full">
@@ -38,4 +38,4 @@ export function SkeletonList() {
       </div>
     </div>
   );
-} 
+}

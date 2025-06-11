@@ -1,7 +1,7 @@
-import React from 'react';
-import { Badge } from '../ui/badge';
-import { Button } from '../ui/button';
-import type { FlashcardDto } from '../../types';
+import React from "react";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import type { FlashcardDto } from "../../types";
 
 interface FlashcardItemProps {
   flashcard: FlashcardDto;
@@ -11,23 +11,23 @@ interface FlashcardItemProps {
 
 export const FlashcardItem = React.memo(function FlashcardItem({ flashcard, onEdit, onDelete }: FlashcardItemProps) {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pl-PL', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("pl-PL", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getSourceLabel = (source: string) => {
     switch (source) {
-      case 'ai-full':
-        return 'AI - pełne';
-      case 'ai-edited':
-        return 'AI - edytowane';
-      case 'manual':
-        return 'Ręczne';
+      case "ai-full":
+        return "AI - pełne";
+      case "ai-edited":
+        return "AI - edytowane";
+      case "manual":
+        return "Ręczne";
       default:
         return source;
     }
@@ -35,14 +35,14 @@ export const FlashcardItem = React.memo(function FlashcardItem({ flashcard, onEd
 
   const getSourceVariant = (source: string) => {
     switch (source) {
-      case 'ai-full':
-        return 'default' as const;
-      case 'ai-edited':
-        return 'secondary' as const;
-      case 'manual':
-        return 'outline' as const;
+      case "ai-full":
+        return "default" as const;
+      case "ai-edited":
+        return "secondary" as const;
+      case "manual":
+        return "outline" as const;
       default:
-        return 'outline' as const;
+        return "outline" as const;
     }
   };
 
@@ -55,9 +55,7 @@ export const FlashcardItem = React.memo(function FlashcardItem({ flashcard, onEd
             <div className="flex items-center gap-2 mb-1">
               <span className="text-sm font-medium text-muted-foreground">Przód:</span>
             </div>
-            <p className="text-foreground font-medium leading-relaxed break-words">
-              {flashcard.front}
-            </p>
+            <p className="text-foreground font-medium leading-relaxed break-words">{flashcard.front}</p>
           </div>
 
           {/* Back */}
@@ -65,9 +63,7 @@ export const FlashcardItem = React.memo(function FlashcardItem({ flashcard, onEd
             <div className="flex items-center gap-2 mb-1">
               <span className="text-sm font-medium text-muted-foreground">Tył:</span>
             </div>
-            <p className="text-foreground leading-relaxed break-words">
-              {flashcard.back}
-            </p>
+            <p className="text-foreground leading-relaxed break-words">{flashcard.back}</p>
           </div>
 
           {/* Metadata */}
@@ -75,37 +71,23 @@ export const FlashcardItem = React.memo(function FlashcardItem({ flashcard, onEd
             <Badge variant={getSourceVariant(flashcard.source)} className="text-xs">
               {getSourceLabel(flashcard.source)}
             </Badge>
-            <span className="text-xs text-muted-foreground">
-              Utworzono: {formatDate(flashcard.created_at)}
-            </span>
+            <span className="text-xs text-muted-foreground">Utworzono: {formatDate(flashcard.created_at)}</span>
             {flashcard.updated_at !== flashcard.created_at && (
-              <span className="text-xs text-muted-foreground">
-                Edytowano: {formatDate(flashcard.updated_at)}
-              </span>
+              <span className="text-xs text-muted-foreground">Edytowano: {formatDate(flashcard.updated_at)}</span>
             )}
           </div>
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-row sm:flex-col gap-2 flex-shrink-0 justify-end sm:justify-start">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onEdit}
-            className="text-xs px-3 py-1"
-          >
+          <Button variant="outline" size="sm" onClick={onEdit} className="text-xs px-3 py-1">
             Edytuj
           </Button>
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={onDelete}
-            className="text-xs px-3 py-1"
-          >
+          <Button variant="destructive" size="sm" onClick={onDelete} className="text-xs px-3 py-1">
             Usuń
           </Button>
         </div>
       </div>
     </div>
   );
-}); 
+});

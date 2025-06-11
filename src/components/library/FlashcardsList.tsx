@@ -1,7 +1,7 @@
-import React from 'react';
-import { FlashcardItem } from './FlashcardItem';
-import { PaginationControls } from './PaginationControls';
-import type { FlashcardDto, PaginationDto } from '../../types';
+import React from "react";
+import { FlashcardItem } from "./FlashcardItem";
+import { PaginationControls } from "./PaginationControls";
+import type { FlashcardDto, PaginationDto } from "../../types";
 
 interface FlashcardsListProps {
   flashcards: FlashcardDto[];
@@ -12,13 +12,13 @@ interface FlashcardsListProps {
   onPageChange: (page: number) => void;
 }
 
-export function FlashcardsList({ 
-  flashcards, 
-  pagination, 
+export function FlashcardsList({
+  flashcards,
+  pagination,
   loading,
-  onEdit, 
-  onDelete, 
-  onPageChange 
+  onEdit,
+  onDelete,
+  onPageChange,
 }: FlashcardsListProps) {
   if (flashcards.length === 0) {
     return null; // Empty state is handled by parent component
@@ -59,4 +59,4 @@ export function FlashcardsList({
       )}
     </div>
   );
-} 
+}

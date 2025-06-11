@@ -1,7 +1,7 @@
 /// <reference types="astro/client" />
 
-import type { Database } from './db/database.types.ts';
-import type { SupabaseServerClient } from './db/supabase.client.ts';
+import type { Database } from "./db/database.types.ts";
+import type { SupabaseServerClient } from "./db/supabase.client.ts";
 
 declare global {
   namespace App {

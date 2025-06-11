@@ -1,11 +1,11 @@
 import type { SupabaseClient } from "../../db/supabase.client";
-import type { 
-  FlashcardsCreateCommand, 
+import type {
+  FlashcardsCreateCommand,
   FlashcardDto,
   FlashcardInsert,
   FlashcardUpdateDto,
   FlashcardsListResponseDto,
-  PaginationDto
+  PaginationDto,
 } from "../../types";
 
 /**
@@ -57,15 +57,10 @@ export class FlashcardsService {
       }
 
       // Apply sorting and pagination
-      fetchQuery = fetchQuery
-        .order(sort, { ascending: order === "asc" })
-        .range(offset, offset + limit - 1);
+      fetchQuery = fetchQuery.order(sort, { ascending: order === "asc" }).range(offset, offset + limit - 1);
 
       // Execute queries in parallel
-      const [countResult, fetchResult] = await Promise.all([
-        countQuery,
-        fetchQuery
-      ]);
+      const [countResult, fetchResult] = await Promise.all([countQuery, fetchQuery]);
 
       if (countResult.error) {
         throw new Error(`Failed to count flashcards: ${countResult.error.message}`);
@@ -85,7 +80,6 @@ export class FlashcardsService {
         data: fetchResult.data || [],
         pagination,
       };
-
     } catch (error) {
       console.error("Error fetching flashcards:", error);
       throw error instanceof Error ? error : new Error("Failed to fetch flashcards");
@@ -112,7 +106,6 @@ export class FlashcardsService {
       }
 
       return data;
-
     } catch (error) {
       console.error("Error fetching flashcard by ID:", error);
       throw error instanceof Error ? error : new Error("Failed to fetch flashcard");
@@ -129,7 +122,7 @@ export class FlashcardsService {
 
     try {
       // Prepare flashcards for database insertion
-      const flashcardsToInsert: FlashcardInsert[] = command.flashcards.map(flashcard => ({
+      const flashcardsToInsert: FlashcardInsert[] = command.flashcards.map((flashcard) => ({
         user_id: this.userId,
         front: flashcard.front.trim(),
         back: flashcard.back.trim(),
@@ -156,7 +149,6 @@ export class FlashcardsService {
       }
 
       return insertedFlashcards;
-
     } catch (error) {
       console.error("Error creating flashcards:", error);
       throw error instanceof Error ? error : new Error("Failed to create flashcards");
@@ -176,7 +168,7 @@ export class FlashcardsService {
 
       // Prepare update data, filtering out undefined values
       const updatePayload: Record<string, any> = {};
-      
+
       if (updateData.front !== undefined) {
         updatePayload.front = updateData.front.trim();
       }
@@ -195,13 +187,15 @@ export class FlashcardsService {
 
       // Validate generation_id if being updated
       if (updatePayload.generation_id !== undefined && updatePayload.generation_id !== null) {
-        await this.validateGenerationIds([{ 
-          user_id: this.userId, 
-          generation_id: updatePayload.generation_id,
-          front: "", 
-          back: "", 
-          source: updatePayload.source || existingFlashcard.source 
-        }]);
+        await this.validateGenerationIds([
+          {
+            user_id: this.userId,
+            generation_id: updatePayload.generation_id,
+            front: "",
+            back: "",
+            source: updatePayload.source || existingFlashcard.source,
+          },
+        ]);
       }
 
       // Perform update
@@ -221,7 +215,6 @@ export class FlashcardsService {
       }
 
       return data;
-
     } catch (error) {
       console.error("Error updating flashcard:", error);
       throw error instanceof Error ? error : new Error("Failed to update flashcard");
@@ -239,18 +232,13 @@ export class FlashcardsService {
         return false;
       }
 
-      const { error } = await this.supabase
-        .from("flashcards")
-        .delete()
-        .eq("id", id)
-        .eq("user_id", this.userId);
+      const { error } = await this.supabase.from("flashcards").delete().eq("id", id).eq("user_id", this.userId);
 
       if (error) {
         throw new Error(`Failed to delete flashcard: ${error.message}`);
       }
 
       return true;
-
     } catch (error) {
       console.error("Error deleting flashcard:", error);
       throw error instanceof Error ? error : new Error("Failed to delete flashcard");
@@ -261,9 +249,7 @@ export class FlashcardsService {
    * Validate that generation_id references exist for AI-generated flashcards
    */
   private async validateGenerationIds(flashcards: FlashcardInsert[]): Promise<void> {
-    const generationIds = flashcards
-      .filter(f => f.generation_id !== null)
-      .map(f => f.generation_id as number);
+    const generationIds = flashcards.filter((f) => f.generation_id !== null).map((f) => f.generation_id as number);
 
     if (generationIds.length === 0) {
       return; // No generation IDs to validate
@@ -284,10 +270,12 @@ export class FlashcardsService {
     }
 
     const existingIds = existingGenerations?.map((g: { id: number }) => g.id) || [];
-    const missingIds = uniqueGenerationIds.filter(id => !existingIds.includes(id));
+    const missingIds = uniqueGenerationIds.filter((id) => !existingIds.includes(id));
 
     if (missingIds.length > 0) {
-      throw new Error(`Invalid generation_id(s): ${missingIds.join(", ")}. These generations do not exist or do not belong to the current user.`);
+      throw new Error(
+        `Invalid generation_id(s): ${missingIds.join(", ")}. These generations do not exist or do not belong to the current user.`
+      );
     }
   }
-} 
+}

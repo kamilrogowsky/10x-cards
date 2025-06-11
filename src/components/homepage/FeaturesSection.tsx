@@ -1,6 +1,6 @@
-import React from 'react';
-import { FeatureCard } from './FeatureCard';
-import type { FeatureDto } from '@/types';
+import React from "react";
+import { FeatureCard } from "./FeatureCard";
+import type { FeatureDto } from "@/types";
 
 interface FeaturesSectionProps {
   features: FeatureDto[];
@@ -10,7 +10,7 @@ interface FeaturesSectionProps {
 export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, isLoading = false }) => {
   // Early validation as per coding practices
   if (!Array.isArray(features) && !isLoading) {
-    console.warn('FeaturesSection: Features must be an array', features);
+    console.warn("FeaturesSection: Features must be an array", features);
     return null;
   }
 
@@ -41,12 +41,8 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, isLo
     return (
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Główne funkcje
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            Funkcje są obecnie ładowane. Sprawdź ponownie za chwilę.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Główne funkcje</h2>
+          <p className="text-gray-600 dark:text-gray-300">Funkcje są obecnie ładowane. Sprawdź ponownie za chwilę.</p>
         </div>
       </section>
     );
@@ -56,20 +52,18 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, isLo
     <section className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Główne funkcje
-          </h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">Główne funkcje</h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Odkryj, co sprawia, że nasza aplikacja do fiszek jest potężna i łatwa w użyciu
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {features.map((feature, index) => (
-            <div 
+            <div
               key={`feature-${index}-${feature.title}`}
               className="animate-fade-up"
-              style={{ animationDelay: `${index * 0.1}s`, animationFillMode: 'both' }}
+              style={{ animationDelay: `${index * 0.1}s`, animationFillMode: "both" }}
             >
               <FeatureCard feature={feature} />
             </div>
@@ -78,4 +72,4 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ features, isLo
       </div>
     </section>
   );
-}; 
+};

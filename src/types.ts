@@ -123,12 +123,12 @@ export type GenerationErrorLogDto = Pick<
 //     Types used specifically for frontend state management and UI rendering
 // ------------------------------------------------------------------------------------------------
 export interface FlashcardProposalViewModel {
-  id: string;                // unique identifier (e.g. index)
+  id: string; // unique identifier (e.g. index)
   front: string;
   back: string;
-  source: 'ai-full' | 'ai-edited';
+  source: "ai-full" | "ai-edited";
   generationId: number;
-  status: 'accepted' | 'rejected' | 'pending';
+  status: "accepted" | "rejected" | "pending";
   validationErrors?: { front?: string; back?: string };
 }
 

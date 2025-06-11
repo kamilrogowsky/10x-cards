@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import type { CtaDto } from '@/types';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import type { CtaDto } from "@/types";
 
 interface TopBarProps {
   cta?: CtaDto;
@@ -17,30 +17,30 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) 
       window.location.href = cta.login_url;
     } else {
       // Fallback to /login if no URL provided
-      window.location.href = '/login';
+      window.location.href = "/login";
     }
   };
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('/api/auth/logout', {
-        method: 'POST',
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
       if (response.ok) {
         // Redirect to home page after logout
-        window.location.href = '/';
+        window.location.href = "/";
       }
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 
   const handleLogoClick = () => {
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
@@ -49,18 +49,16 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) 
         <div className="flex items-center justify-between">
           {/* Logo/Brand */}
           <div className="flex items-center">
-            <button 
+            <button
               onClick={handleLogoClick}
               className="flex items-center gap-2 transition-all duration-200 hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-lg px-1 py-1"
             >
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-sm">
                 <svg className="w-5 h-5 text-primary-foreground" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                 </svg>
               </div>
-              <h1 className="text-lg sm:text-xl font-bold text-foreground">
-                10xCards
-              </h1>
+              <h1 className="text-lg sm:text-xl font-bold text-foreground">10xCards</h1>
             </button>
           </div>
 
@@ -71,7 +69,7 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) 
                 {/* Navigation Links for authenticated users */}
                 <nav className="hidden sm:flex items-center gap-2">
                   <Button
-                    onClick={() => window.location.href = '/generate'}
+                    onClick={() => (window.location.href = "/generate")}
                     variant="ghost"
                     size="sm"
                     className="text-sm font-medium"
@@ -79,7 +77,7 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) 
                     Generuj fiszki
                   </Button>
                   <Button
-                    onClick={() => window.location.href = '/library'}
+                    onClick={() => (window.location.href = "/library")}
                     variant="ghost"
                     size="sm"
                     className="text-sm font-medium"
@@ -87,12 +85,10 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) 
                     Moje fiszki
                   </Button>
                 </nav>
-                
+
                 {/* User Menu */}
                 <div className="flex items-center gap-2">
-                  <span className="hidden sm:inline text-sm text-muted-foreground">
-                    {user.email}
-                  </span>
+                  <span className="hidden sm:inline text-sm text-muted-foreground">{user.email}</span>
                   <Button
                     onClick={handleLogout}
                     variant="outline"
@@ -127,4 +123,4 @@ export const TopBar: React.FC<TopBarProps> = ({ cta, isLoading = false, user }) 
       </div>
     </header>
   );
-}; 
+};

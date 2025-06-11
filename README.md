@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Project Description](#project-description)
 - [Tech Stack](#tech-stack)
+- [Testing](#testing)
 - [Getting Started Locally](#getting-started-locally)
 - [Available Scripts](#available-scripts)
 - [Project Scope](#project-scope)
@@ -22,6 +23,21 @@ The project is built using the following technologies:
 - React 19
 - Tailwind 4
 - Shadcn/ui
+
+## Testing
+
+The project uses a comprehensive testing setup to ensure code quality and reliability:
+
+### Unit Testing
+- **Vitest** - Fast unit test framework for JavaScript/TypeScript
+- **React Testing Library** - Testing utilities for React components
+- **@astro/test-utils** - Official testing utilities for Astro components
+- **MSW (Mock Service Worker)** - API mocking for reliable tests
+
+### Code Quality & Performance
+- **Lighthouse CLI** - Automated performance audits
+- **Semgrep** - Static analysis security testing (SAST)
+- **ESLint security plugins** - Security-focused linting rules
 
 ## Getting Started Locally
 
@@ -58,6 +74,9 @@ To set up the project on your local machine, please follow these steps:
 - `npm run lint` - Checks code quality using ESLint.
 - `npm run lint:fix` - Fixes linting errors with ESLint.
 - `npm run format` - Formats the code using Prettier.
+- `npm run test` - Runs unit tests with Vitest.
+- `npm run test:watch` - Runs unit tests in watch mode.
+- `npm run test:coverage` - Runs tests with coverage report.
 
 ## Project Scope
 

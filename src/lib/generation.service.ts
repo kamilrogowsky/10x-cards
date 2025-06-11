@@ -1,9 +1,9 @@
 import type { SupabaseClient } from "../db/supabase.client";
-import type { 
-  GenerateFlashcardsCommand, 
-  FlashcardProposalDto, 
+import type {
+  GenerateFlashcardsCommand,
+  FlashcardProposalDto,
   GenerationCreateResponseDto,
-  Generation
+  Generation,
 } from "../types";
 import { OpenRouterService } from "./openrouter.service";
 import crypto from "crypto";
@@ -22,9 +22,10 @@ export class GenerationService {
     this.openRouterService = new OpenRouterService({
       apiKey: openRouterApiKey,
     });
-    
+
     // Set up the system prompt for flashcard generation
-    this.openRouterService.setSystemMessage(`
+    this.openRouterService.setSystemMessage(
+      `
 You are an expert educational content creator specializing in creating high-quality flashcards for learning.
 
 Your task is to analyze the provided text and create effective flashcards that help students learn and remember key concepts, facts, and relationships.
@@ -39,7 +40,8 @@ Guidelines for creating flashcards:
 
 Create 2-10 flashcards depending on the length and complexity of the content.
 Each flashcard should have a "front" (question) and "back" (answer).
-    `.trim());
+    `.trim()
+    );
 
     // Set up the response format schema
     this.openRouterService.setResponseFormat({
@@ -69,13 +71,10 @@ Each flashcard should have a "front" (question) and "back" (answer).
    */
   async generateFlashcards(command: GenerateFlashcardsCommand): Promise<GenerationCreateResponseDto> {
     const startTime = Date.now();
-    
+
     try {
       // Generate hash of source text for privacy
-      const sourceTextHash = crypto
-        .createHash("md5")
-        .update(command.source_text)
-        .digest("hex");
+      const sourceTextHash = crypto.createHash("md5").update(command.source_text).digest("hex");
 
       // Generate flashcards using OpenRouter
       const flashcardsProposals = await this.generateFlashcardsWithAI(command.source_text);
@@ -105,16 +104,11 @@ Each flashcard should have a "front" (question) and "back" (answer).
         flashcards_proposals: flashcardsProposals,
         generated_count: generatedCount,
       };
-
     } catch (error) {
       const generationDuration = Date.now() - startTime;
-      
+
       // Log error to generation_error_logs
-      await this.logGenerationError(
-        error as Error,
-        command.source_text,
-        generationDuration
-      );
+      await this.logGenerationError(error as Error, command.source_text, generationDuration);
 
       throw error;
     }
@@ -126,18 +120,20 @@ Each flashcard should have a "front" (question) and "back" (answer).
   private async generateFlashcardsWithAI(sourceText: string): Promise<FlashcardProposalDto[]> {
     try {
       // Set the user message with the source text
-      this.openRouterService.setUserMessage(`
+      this.openRouterService.setUserMessage(
+        `
 Please create flashcards based on the following text:
 
 ${sourceText}
-      `.trim());
+      `.trim()
+      );
 
       // Get response from AI
       const response = await this.openRouterService.sendChatMessage();
-      
+
       // Parse the JSON response
       const parsedResponse = JSON.parse(response);
-      
+
       // Transform AI response to our DTO format
       const flashcards: FlashcardProposalDto[] = parsedResponse.flashcards.map((card: any) => ({
         front: card.front,
@@ -155,16 +151,9 @@ ${sourceText}
   /**
    * Log generation errors to the database
    */
-  private async logGenerationError(
-    error: Error,
-    sourceText: string,
-    generationDuration: number
-  ): Promise<void> {
+  private async logGenerationError(error: Error, sourceText: string, generationDuration: number): Promise<void> {
     try {
-      const sourceTextHash = crypto
-        .createHash("md5")
-        .update(sourceText)
-        .digest("hex");
+      const sourceTextHash = crypto.createHash("md5").update(sourceText).digest("hex");
 
       await this.supabase.from("generation_error_logs").insert({
         user_id: this.userId,
@@ -199,4 +188,4 @@ ${sourceText}
 
     return data;
   }
-} 
+}

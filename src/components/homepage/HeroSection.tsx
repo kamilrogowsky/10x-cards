@@ -1,5 +1,5 @@
-import React from 'react';
-import type { AppInfoDto } from '@/types';
+import React from "react";
+import type { AppInfoDto } from "@/types";
 
 interface HeroSectionProps {
   appInfo: AppInfoDto;
@@ -9,7 +9,7 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ appInfo, isLoading = false }) => {
   // Early validation as per coding practices
   if (!appInfo && !isLoading) {
-    console.warn('HeroSection: Missing appInfo data');
+    console.warn("HeroSection: Missing appInfo data");
     return null;
   }
 
@@ -30,7 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ appInfo, isLoading = f
     <section className="text-center py-24 px-4 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
-      
+
       <div className="max-w-4xl mx-auto relative">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-br from-foreground to-foreground/80 bg-clip-text text-transparent mb-6 animate-fade-up">
           {appInfo.name}
@@ -40,11 +40,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ appInfo, isLoading = f
         </p>
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-full animate-fade-up [animation-delay:0.4s] [animation-fill-mode:both]">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <p className="text-sm text-muted-foreground">
-            Wersja {appInfo.version}
-          </p>
+          <p className="text-sm text-muted-foreground">Wersja {appInfo.version}</p>
         </div>
       </div>
     </section>
   );
-}; 
+};

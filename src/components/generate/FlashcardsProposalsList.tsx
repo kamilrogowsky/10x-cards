@@ -1,18 +1,14 @@
-import React from 'react';
-import { FlashcardProposalItem } from './FlashcardProposalItem';
-import type { FlashcardProposalViewModel } from '../../types';
+import React from "react";
+import { FlashcardProposalItem } from "./FlashcardProposalItem";
+import type { FlashcardProposalViewModel } from "../../types";
 
 interface FlashcardsProposalsListProps {
   proposals: FlashcardProposalViewModel[];
-  onStatusChange: (id: string, status: 'accepted' | 'rejected' | 'pending') => void;
+  onStatusChange: (id: string, status: "accepted" | "rejected" | "pending") => void;
   onEdit: (id: string, front: string, back: string) => void;
 }
 
-export function FlashcardsProposalsList({
-  proposals,
-  onStatusChange,
-  onEdit
-}: FlashcardsProposalsListProps) {
+export function FlashcardsProposalsList({ proposals, onStatusChange, onEdit }: FlashcardsProposalsListProps) {
   if (proposals.length === 0) {
     return (
       <div className="text-center py-8">
@@ -29,7 +25,7 @@ export function FlashcardsProposalsList({
           Przejrzyj propozycje, zatwierdź lub odrzuć je, a następnie zapisz wybrane fiszki
         </p>
       </div>
-      
+
       <div className="space-y-4">
         {proposals.map((proposal, index) => (
           <FlashcardProposalItem
@@ -41,10 +37,10 @@ export function FlashcardsProposalsList({
           />
         ))}
       </div>
-      
+
       <div className="text-center text-sm text-muted-foreground">
-        Wygenerowano {proposals.length} {proposals.length === 1 ? 'propozycję' : 'propozycji'}
+        Wygenerowano {proposals.length} {proposals.length === 1 ? "propozycję" : "propozycji"}
       </div>
     </div>
   );
-} 
+}

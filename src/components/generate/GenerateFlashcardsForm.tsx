@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface GenerateFlashcardsFormProps {
   sourceText: string;
@@ -16,7 +16,7 @@ export function GenerateFlashcardsForm({
   onChange,
   onSubmit,
   isSubmitting,
-  error
+  error,
 }: GenerateFlashcardsFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,23 +39,17 @@ export function GenerateFlashcardsForm({
           className="min-h-[200px] max-h-[200px]"
         />
         <div className="flex justify-between items-center text-sm">
-          <span className={`text-muted-foreground ${charCount < 1000 || charCount > 10000 ? 'text-destructive' : ''}`}>
+          <span className={`text-muted-foreground ${charCount < 1000 || charCount > 10000 ? "text-destructive" : ""}`}>
             {charCount} / 10000 znaków
             {charCount < 1000 && ` (minimum 1000)`}
           </span>
-          {error && (
-            <span className="text-destructive text-sm">{error}</span>
-          )}
+          {error && <span className="text-destructive text-sm">{error}</span>}
         </div>
       </div>
-      
-      <Button 
-        type="submit" 
-        disabled={!isValid || isSubmitting}
-        className="space-y-6"
-      >
-        {isSubmitting ? 'Generowanie...' : 'Generuj fiszki'}
+
+      <Button type="submit" disabled={!isValid || isSubmitting} className="space-y-6">
+        {isSubmitting ? "Generowanie..." : "Generuj fiszki"}
       </Button>
     </form>
   );
-} 
+}

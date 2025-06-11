@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import type { CtaDto } from '@/types';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import type { CtaDto } from "@/types";
 
 interface CallToActionSectionProps {
   cta: CtaDto;
@@ -10,13 +10,13 @@ interface CallToActionSectionProps {
 export const CallToActionSection: React.FC<CallToActionSectionProps> = ({ cta, isLoading = false }) => {
   // Early validation as per coding practices
   if (!cta && !isLoading) {
-    console.warn('CallToActionSection: Missing CTA data');
+    console.warn("CallToActionSection: Missing CTA data");
     return null;
   }
 
   // Validate login URL
   if (cta && !cta.login_url) {
-    console.warn('CallToActionSection: Invalid login_url', cta);
+    console.warn("CallToActionSection: Invalid login_url", cta);
     return null;
   }
 
@@ -42,9 +42,7 @@ export const CallToActionSection: React.FC<CallToActionSectionProps> = ({ cta, i
   return (
     <section className="bg-muted/30 py-16 px-4 relative">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-          {cta.title}
-        </h2>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">{cta.title}</h2>
         <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
           {cta.description}
         </p>
@@ -53,13 +51,11 @@ export const CallToActionSection: React.FC<CallToActionSectionProps> = ({ cta, i
           size="lg"
           className="px-8 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/25 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary group"
         >
-          <span className="group-hover:scale-110 transition-transform duration-200">
-            Rozpocznij
-          </span>
-          <svg 
-            className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" 
-            fill="none" 
-            stroke="currentColor" 
+          <span className="group-hover:scale-110 transition-transform duration-200">Rozpocznij</span>
+          <svg
+            className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -68,4 +64,4 @@ export const CallToActionSection: React.FC<CallToActionSectionProps> = ({ cta, i
       </div>
     </section>
   );
-}; 
+};

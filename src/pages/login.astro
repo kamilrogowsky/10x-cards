@@ -4,20 +4,23 @@ import { LoginForm } from "../components/LoginForm";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 ---
 
-<Layout 
-  title="Zaloguj się - 10xCards" 
+<Layout
+  title="Zaloguj się - 10xCards"
   description="Zaloguj się do 10xCards, aby tworzyć fiszki przy użyciu sztucznej inteligencji"
 >
-  <div class="min-h-screen bg-gradient-to-b from-background via-background to-muted/20 flex items-center justify-center p-4">
+  <div
+    class="min-h-screen bg-gradient-to-b from-background via-background to-muted/20 flex items-center justify-center p-4"
+  >
     <div class="w-full max-w-md">
       <!-- Back to Home Link -->
       <div class="mb-8 text-center">
-        <a 
-          href="/" 
+        <a
+          href="/"
           class="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
           </svg>
           Powrót do strony głównej
         </a>
@@ -43,8 +46,8 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
       transform: translateY(0);
     }
   }
-  
+
   .animate-slide-up {
     animation: slide-up 0.5s ease-out;
   }
-</style> 
+</style>

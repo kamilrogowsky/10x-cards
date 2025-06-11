@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { FeatureDto } from '@/types';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { FeatureDto } from "@/types";
 
 interface FeatureCardProps {
   feature: FeatureDto;
@@ -9,7 +9,7 @@ interface FeatureCardProps {
 export const FeatureCard: React.FC<FeatureCardProps> = ({ feature }) => {
   // Early validation as per coding practices
   if (!feature.title || !feature.description) {
-    console.warn('FeatureCard: Missing required feature data', feature);
+    console.warn("FeatureCard: Missing required feature data", feature);
     return null;
   }
 
@@ -27,4 +27,4 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({ feature }) => {
       </CardContent>
     </Card>
   );
-}; 
+};

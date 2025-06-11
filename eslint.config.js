@@ -6,6 +6,9 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import pluginReact from "eslint-plugin-react";
 import reactCompiler from "eslint-plugin-react-compiler";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
+import eslintPluginSecurity from "eslint-plugin-security";
+import eslintPluginTestingLibrary from "eslint-plugin-testing-library";
+import eslintPluginVitest from "eslint-plugin-vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import tseslint from "typescript-eslint";
@@ -56,11 +59,37 @@ const reactConfig = tseslint.config({
   },
 });
 
+const testConfig = tseslint.config({
+  files: ["**/*.{test,spec}.{js,jsx,ts,tsx}"],
+  plugins: {
+    vitest: eslintPluginVitest,
+    "testing-library": eslintPluginTestingLibrary,
+  },
+  rules: {
+    ...eslintPluginVitest.configs.recommended.rules,
+    ...eslintPluginTestingLibrary.configs["flat/react"].rules,
+  },
+  languageOptions: {
+    globals: eslintPluginVitest.environments.env.globals,
+  },
+});
+
+const securityConfig = tseslint.config({
+  plugins: {
+    security: eslintPluginSecurity,
+  },
+  rules: {
+    ...eslintPluginSecurity.configs.recommended.rules,
+  },
+});
+
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
   baseConfig,
   jsxA11yConfig,
   reactConfig,
+  testConfig,
+  securityConfig,
   eslintPluginAstro.configs["flat/recommended"],
   eslintPluginPrettier
 );

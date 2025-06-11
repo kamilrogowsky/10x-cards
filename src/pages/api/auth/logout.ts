@@ -1,30 +1,30 @@
-import type { APIRoute } from 'astro';
-import { createSupabaseServerInstance } from '../../../db/supabase.client.ts';
+import type { APIRoute } from "astro";
+import { createSupabaseServerInstance } from "../../../db/supabase.client.ts";
 
 // Prevent prerendering for this API route
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request, cookies }) => {
   try {
-    const supabase = createSupabaseServerInstance({ 
-      cookies, 
-      headers: request.headers 
+    const supabase = createSupabaseServerInstance({
+      cookies,
+      headers: request.headers,
     });
 
     // Sign out from Supabase Auth
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      console.error('Logout error:', error.message);
+      console.error("Logout error:", error.message);
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: true,
-          message: 'Wystąpił błąd podczas wylogowania' 
+          message: "Wystąpił błąd podczas wylogowania",
         }),
         {
           status: 500,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
@@ -32,32 +32,31 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     // Success response
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         success: true,
-        message: 'Pomyślnie wylogowano' 
+        message: "Pomyślnie wylogowano",
       }),
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
-
   } catch (error) {
-    console.error('Logout API error:', error);
-    
+    console.error("Logout API error:", error);
+
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: true,
-        message: 'Wystąpił błąd serwera. Spróbuj ponownie później' 
+        message: "Wystąpił błąd serwera. Spróbuj ponownie później",
       }),
       {
         status: 500,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     );
   }
-}; 
+};

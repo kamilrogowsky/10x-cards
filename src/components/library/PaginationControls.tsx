@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from '../ui/button';
+import React from "react";
+import { Button } from "../ui/button";
 
 interface PaginationControlsProps {
   page: number;
@@ -8,12 +8,7 @@ interface PaginationControlsProps {
   disabled?: boolean;
 }
 
-export function PaginationControls({ 
-  page, 
-  totalPages, 
-  onPageChange, 
-  disabled = false 
-}: PaginationControlsProps) {
+export function PaginationControls({ page, totalPages, onPageChange, disabled = false }: PaginationControlsProps) {
   const canGoPrevious = page > 1 && !disabled;
   const canGoNext = page < totalPages && !disabled;
 
@@ -32,12 +27,7 @@ export function PaginationControls({
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
         Poprzednia
       </Button>
@@ -63,14 +53,9 @@ export function PaginationControls({
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </Button>
     </div>
   );
-} 
+}

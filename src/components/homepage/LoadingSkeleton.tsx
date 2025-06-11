@@ -1,5 +1,5 @@
-import React from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const LoadingSkeleton: React.FC = () => {
   return (
@@ -24,7 +24,7 @@ export const LoadingSkeleton: React.FC = () => {
               <Skeleton className="h-12 md:h-14 mb-6 mx-auto max-w-sm" />
               <Skeleton className="h-6 mx-auto max-w-2xl" />
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
               {[1, 2, 3].map((index) => (
                 <div key={index} className="space-y-4">
@@ -48,4 +48,4 @@ export const LoadingSkeleton: React.FC = () => {
       </div>
     </main>
   );
-}; 
+};

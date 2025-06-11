@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import type { LoginDTO } from '@/types';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import type { LoginDTO } from "@/types";
 
 interface LoginFormProps {
   className?: string;
@@ -18,10 +18,10 @@ interface FormErrors {
 
 export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
   const [formData, setFormData] = useState<LoginDTO>({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
-  
+
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,16 +31,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
 
     // Email validation
     if (!formData.email) {
-      newErrors.email = 'Email jest wymagany';
+      newErrors.email = "Email jest wymagany";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Nieprawidłowy format email';
+      newErrors.email = "Nieprawidłowy format email";
     }
 
     // Password validation
     if (!formData.password) {
-      newErrors.password = 'Hasło jest wymagane';
+      newErrors.password = "Hasło jest wymagane";
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Hasło musi mieć co najmniej 6 znaków';
+      newErrors.password = "Hasło musi mieć co najmniej 6 znaków";
     }
 
     setErrors(newErrors);
@@ -48,22 +48,22 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
   };
 
   const handleInputChange = (field: keyof LoginDTO, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Clear field-specific error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }));
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
-    
+
     // Clear global error when user modifies form
     if (errors.global) {
-      setErrors(prev => ({ ...prev, global: undefined }));
+      setErrors((prev) => ({ ...prev, global: undefined }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -72,29 +72,29 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
     setErrors({});
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       const responseData = await response.json().catch(() => ({}));
-      
+
       if (response.ok && responseData.success) {
         // Success - redirect to home page
-        window.location.href = '/';
+        window.location.href = "/";
       } else {
         // Handle authentication error
         setErrors({
-          global: responseData.message || 'Nieprawidłowy email lub hasło'
+          global: responseData.message || "Nieprawidłowy email lub hasło",
         });
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       setErrors({
-        global: 'Wystąpił błąd podczas logowania. Spróbuj ponownie.'
+        global: "Wystąpił błąd podczas logowania. Spróbuj ponownie.",
       });
     } finally {
       setIsLoading(false);
@@ -107,12 +107,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
         <CardHeader className="space-y-4 text-center">
           <div className="mx-auto w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-sm">
             <svg className="w-6 h-6 text-primary-foreground" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
-          <CardTitle className="text-2xl font-bold text-foreground">
-            Zaloguj się
-          </CardTitle>
+          <CardTitle className="text-2xl font-bold text-foreground">Zaloguj się</CardTitle>
           <CardDescription className="text-muted-foreground">
             Wprowadź swoje dane, aby uzyskać dostęp do 10xCards
           </CardDescription>
@@ -136,10 +134,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
                 type="email"
                 placeholder="Wprowadź swój adres e-mail"
                 value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={(e) => handleInputChange("email", e.target.value)}
                 aria-invalid={!!errors.email}
                 disabled={isLoading}
-                className={errors.email ? 'border-destructive focus-visible:border-destructive' : ''}
+                className={errors.email ? "border-destructive focus-visible:border-destructive" : ""}
               />
               {errors.email && (
                 <p className="text-sm text-destructive font-medium" role="alert">
@@ -158,10 +156,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
                 type="password"
                 placeholder="Wprowadź swoje hasło"
                 value={formData.password}
-                onChange={(e) => handleInputChange('password', e.target.value)}
+                onChange={(e) => handleInputChange("password", e.target.value)}
                 aria-invalid={!!errors.password}
                 disabled={isLoading}
-                className={errors.password ? 'border-destructive focus-visible:border-destructive' : ''}
+                className={errors.password ? "border-destructive focus-visible:border-destructive" : ""}
               />
               {errors.password && (
                 <p className="text-sm text-destructive font-medium" role="alert">
@@ -182,7 +180,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
                   Logowanie...
                 </div>
               ) : (
-                'Zaloguj się'
+                "Zaloguj się"
               )}
             </Button>
           </form>
@@ -190,4 +188,4 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
       </Card>
     </div>
   );
-}; 
+};

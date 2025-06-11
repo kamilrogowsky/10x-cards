@@ -10,11 +10,11 @@ const userId = Astro.locals.user_id;
 const user = Astro.locals.user;
 
 // Log authentication status for debugging
-console.log('Library page - Authenticated:', authenticated, 'User ID:', userId);
+console.log("Library page - Authenticated:", authenticated, "User ID:", userId);
 ---
 
-<Layout 
-  title="Moje Fiszki - 10xCards" 
+<Layout
+  title="Moje Fiszki - 10xCards"
   description="Przeglądaj, twórz, edytuj i usuwaj swoje fiszki w bibliotece 10xCards"
 >
   <ErrorBoundary client:load>
@@ -23,4 +23,4 @@ console.log('Library page - Authenticated:', authenticated, 'User ID:', userId);
       <LibraryPage client:load authenticated={authenticated} />
     </main>
   </ErrorBoundary>
-</Layout> 
+</Layout>

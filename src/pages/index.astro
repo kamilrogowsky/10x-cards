@@ -7,7 +7,10 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
 const user = Astro.locals.user;
 ---
 
-<Layout title="10xCards - Generowanie Fiszek przez AI" description="Przekształć dowolny tekst w wysokiej jakości fiszki przy użyciu zaawansowanej sztucznej inteligencji. Ucz się efektywnie dzięki naukowo potwierdzonemu systemowi powtarzania przestankowego.">
+<Layout
+  title="10xCards - Generowanie Fiszek przez AI"
+  description="Przekształć dowolny tekst w wysokiej jakości fiszki przy użyciu zaawansowanej sztucznej inteligencji. Ucz się efektywnie dzięki naukowo potwierdzonemu systemowi powtarzania przestankowego."
+>
   <ErrorBoundary client:load>
     <Homepage client:load user={user} />
   </ErrorBoundary>

@@ -1,54 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { GenerateFlashcardsForm } from './GenerateFlashcardsForm';
-import { SkeletonList } from './SkeletonList';
-import { ErrorAlert } from './ErrorAlert';
-import { FlashcardsProposalsList } from './FlashcardsProposalsList';
-import { SaveActions } from './SaveActions';
-import { useGenerateFlashcards } from './hooks/useGenerateFlashcards';
-import { useSaveFlashcards } from './hooks/useSaveFlashcards';
-import { toast } from 'sonner';
-import type { FlashcardProposalViewModel } from '../../types';
+import React, { useState, useEffect } from "react";
+import { GenerateFlashcardsForm } from "./GenerateFlashcardsForm";
+import { SkeletonList } from "./SkeletonList";
+import { ErrorAlert } from "./ErrorAlert";
+import { FlashcardsProposalsList } from "./FlashcardsProposalsList";
+import { SaveActions } from "./SaveActions";
+import { useGenerateFlashcards } from "./hooks/useGenerateFlashcards";
+import { useSaveFlashcards } from "./hooks/useSaveFlashcards";
+import { toast } from "sonner";
+import type { FlashcardProposalViewModel } from "../../types";
 
 export default function GenerateFlashcardsContainer() {
-  const [sourceText, setSourceText] = useState('');
+  const [sourceText, setSourceText] = useState("");
   const [proposals, setProposals] = useState<FlashcardProposalViewModel[]>([]);
   const [generationId, setGenerationId] = useState<number | null>(null);
-  const [lastSaveAction, setLastSaveAction] = useState<'all' | 'accepted' | null>(null);
+  const [lastSaveAction, setLastSaveAction] = useState<"all" | "accepted" | null>(null);
 
-  const {
-    generate,
-    data: generationData,
-    error: generationError,
-    isLoading: isGenerating
-  } = useGenerateFlashcards();
+  const { generate, data: generationData, error: generationError, isLoading: isGenerating } = useGenerateFlashcards();
 
   const {
     save,
     error: saveError,
     isLoading: isSaving,
     success: saveSuccess,
-    clearState: clearSaveState
+    clearState: clearSaveState,
   } = useSaveFlashcards();
 
   // Handle save success
   useEffect(() => {
     if (saveSuccess && lastSaveAction) {
-      const acceptedCount = proposals.filter(p => p.status === 'accepted').length;
+      const acceptedCount = proposals.filter((p) => p.status === "accepted").length;
       const totalCount = proposals.length;
-      
-      if (lastSaveAction === 'accepted') {
+
+      if (lastSaveAction === "accepted") {
         toast.success(`Zapisano ${acceptedCount} zaakceptowanych fiszek!`, {
-          description: `Pomyślnie dodano fiszki do bazy danych.`
+          description: `Pomyślnie dodano fiszki do bazy danych.`,
         });
       } else {
         toast.success(`Zapisano ${totalCount} fiszek!`, {
-          description: `Pomyślnie dodano wszystkie fiszki do bazy danych.`
+          description: `Pomyślnie dodano wszystkie fiszki do bazy danych.`,
         });
       }
-      
+
       // Reset form to initial state after successful save
       setTimeout(() => {
-        setSourceText('');
+        setSourceText("");
         setProposals([]);
         setGenerationId(null);
         clearSaveState();
@@ -66,7 +61,7 @@ export default function GenerateFlashcardsContainer() {
       const result = await generate(sourceText);
       if (result) {
         setGenerationId(result.generation_id);
-        
+
         // Przekształć propozycje z API na ViewModels
         const proposalViewModels: FlashcardProposalViewModel[] = result.flashcards_proposals.map(
           (proposal: any, index: number) => ({
@@ -75,51 +70,47 @@ export default function GenerateFlashcardsContainer() {
             back: proposal.back,
             source: proposal.source,
             generationId: result.generation_id,
-            status: 'pending' as const,
+            status: "pending" as const,
           })
         );
-        
+
         setProposals(proposalViewModels);
       }
     } catch (error) {
-      console.error('Failed to generate flashcards:', error);
+      console.error("Failed to generate flashcards:", error);
     }
   };
 
-  const handleProposalStatusChange = (id: string, status: 'accepted' | 'rejected' | 'pending') => {
-    setProposals(prev => 
-      prev.map(proposal => 
-        proposal.id === id ? { ...proposal, status } : proposal
-      )
-    );
+  const handleProposalStatusChange = (id: string, status: "accepted" | "rejected" | "pending") => {
+    setProposals((prev) => prev.map((proposal) => (proposal.id === id ? { ...proposal, status } : proposal)));
   };
 
   const handleProposalEdit = (id: string, front: string, back: string) => {
-    setProposals(prev => 
-      prev.map(proposal => 
-        proposal.id === id 
-          ? { 
-              ...proposal, 
-              front, 
-              back, 
-              source: 'ai-edited' as const,
-              validationErrors: undefined
-            } 
+    setProposals((prev) =>
+      prev.map((proposal) =>
+        proposal.id === id
+          ? {
+              ...proposal,
+              front,
+              back,
+              source: "ai-edited" as const,
+              validationErrors: undefined,
+            }
           : proposal
       )
     );
-    
-    toast.success('Fiszka została edytowana', {
-      description: 'Zmiany zostały zapisane lokalnie.'
+
+    toast.success("Fiszka została edytowana", {
+      description: "Zmiany zostały zapisane lokalnie.",
     });
   };
 
   const handleSaveAll = async () => {
     if (!generationId) return;
-    
-    setLastSaveAction('all');
-    
-    const flashcardsToSave = proposals.map(proposal => ({
+
+    setLastSaveAction("all");
+
+    const flashcardsToSave = proposals.map((proposal) => ({
       front: proposal.front,
       back: proposal.back,
       source: proposal.source,
@@ -131,11 +122,11 @@ export default function GenerateFlashcardsContainer() {
 
   const handleSaveAccepted = async () => {
     if (!generationId) return;
-    
-    setLastSaveAction('accepted');
-    
-    const acceptedProposals = proposals.filter(p => p.status === 'accepted');
-    const flashcardsToSave = acceptedProposals.map(proposal => ({
+
+    setLastSaveAction("accepted");
+
+    const acceptedProposals = proposals.filter((p) => p.status === "accepted");
+    const flashcardsToSave = acceptedProposals.map((proposal) => ({
       front: proposal.front,
       back: proposal.back,
       source: proposal.source,
@@ -162,9 +153,7 @@ export default function GenerateFlashcardsContainer() {
           isSubmitting={isGenerating}
         />
 
-        {generationError && (
-          <ErrorAlert message={generationError} />
-        )}
+        {generationError && <ErrorAlert message={generationError} />}
 
         {isGenerating && <SkeletonList />}
 
@@ -186,10 +175,8 @@ export default function GenerateFlashcardsContainer() {
           />
         )}
 
-        {saveError && (
-          <ErrorAlert message={saveError} />
-        )}
+        {saveError && <ErrorAlert message={saveError} />}
       </div>
     </div>
   );
-} 
+}
