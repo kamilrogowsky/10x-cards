@@ -25,15 +25,16 @@ jobs:
 
       - name: Clean installation files
         run: |
-          if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
-          if (Test-Path package-lock.json) { Remove-Item -Force package-lock.json }
-        shell: powershell
+          if exist node_modules rmdir /s /q node_modules
+          if exist package-lock.json del package-lock.json
+        shell: cmd
 
       - name: Clean npm cache
         run: npm cache clean --force
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --prefer-offline --no-audit
+        timeout-minutes: 10
 
       - name: Run linting
         run: npm run lint
@@ -55,15 +56,16 @@ jobs:
 
       - name: Clean installation files
         run: |
-          if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
-          if (Test-Path package-lock.json) { Remove-Item -Force package-lock.json }
-        shell: powershell
+          if exist node_modules rmdir /s /q node_modules
+          if exist package-lock.json del package-lock.json
+        shell: cmd
 
       - name: Clean npm cache
         run: npm cache clean --force
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --prefer-offline --no-audit
+        timeout-minutes: 10
 
       - name: Run tests with coverage
         run: npm run test:coverage
@@ -85,10 +87,12 @@ jobs:
       pull-requests: write
     steps:
       - name: Download coverage artifacts
+        if: needs.test.result == 'success'
         uses: actions/download-artifact@v4
         with:
           name: coverage-report
           path: coverage/
+        continue-on-error: true
 
       - name: Post success comment
         if: needs.lint.result == 'success' && needs.test.result == 'success'
@@ -102,7 +106,7 @@ jobs:
             let coverageText = '';
             const coverageSummaryPath = path.join('coverage', 'coverage-summary.json');
             
-            if (fs.existsSync(coverageSummaryPath)) {
+            if (fs.existsSync('coverage') && fs.existsSync(coverageSummaryPath)) {
               try {
                 const coverageData = JSON.parse(fs.readFileSync(coverageSummaryPath, 'utf8'));
                 const totalCoverage = coverageData.total;
