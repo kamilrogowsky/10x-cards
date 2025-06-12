@@ -11,7 +11,7 @@ env:
 jobs:
   lint:
     name: Lint code
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: read
     steps:
@@ -25,8 +25,9 @@ jobs:
 
       - name: Clean installation files
         run: |
-          rm -rf node_modules
-          rm -f package-lock.json
+          if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
+          if (Test-Path package-lock.json) { Remove-Item -Force package-lock.json }
+        shell: powershell
 
       - name: Clean npm cache
         run: npm cache clean --force
@@ -39,7 +40,7 @@ jobs:
 
   test:
     name: Run tests with coverage
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: lint
     permissions:
       contents: read
@@ -54,8 +55,9 @@ jobs:
 
       - name: Clean installation files
         run: |
-          rm -rf node_modules
-          rm -f package-lock.json
+          if (Test-Path node_modules) { Remove-Item -Recurse -Force node_modules }
+          if (Test-Path package-lock.json) { Remove-Item -Force package-lock.json }
+        shell: powershell
 
       - name: Clean npm cache
         run: npm cache clean --force
@@ -75,7 +77,7 @@ jobs:
 
   status-comment:
     name: Post PR status comment
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [lint, test]
     if: always()
     permissions:
