@@ -44,24 +44,31 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Install dependencies
+      - name: Clean and install dependencies
         run: |
-          npm ci || (rm -rf node_modules package-lock.json && npm install)
-
-      - name: Verify platform-specific binaries
-        run: |
-          echo "Checking for Rollup Linux binary..."
-          ls -la node_modules/@rollup/ || echo "No Rollup binaries found"
+          echo "Cleaning npm cache and node_modules..."
+          rm -rf node_modules package-lock.json
+          npm cache clean --force
+          
+          echo "Installing dependencies with optional dependencies..."
+          npm install
+          
+          echo "Verifying critical binaries are installed..."
+          ls -la node_modules/@rollup/ || echo "No Rollup binaries directory"
+          ls -la node_modules/@tailwindcss/ || echo "No TailwindCSS binaries directory" 
+          
           if [ ! -d "node_modules/@rollup/rollup-linux-x64-gnu" ]; then
-            echo "Installing Rollup Linux binary explicitly..."
-            npm install @rollup/rollup-linux-x64-gnu --no-save
+            echo "ERROR: Rollup Linux binary missing - installing explicitly"
+            npm install @rollup/rollup-linux-x64-gnu --save-optional
+          else
+            echo "✓ Rollup Linux binary found"
           fi
           
-          echo "Checking for TailwindCSS oxide Linux binary..."
-          ls -la node_modules/@tailwindcss/ || echo "No TailwindCSS binaries found"
           if [ ! -d "node_modules/@tailwindcss/oxide-linux-x64-gnu" ]; then
-            echo "Installing TailwindCSS oxide Linux binary explicitly..."
-            npm install @tailwindcss/oxide-linux-x64-gnu --no-save
+            echo "ERROR: TailwindCSS oxide Linux binary missing - installing explicitly"
+            npm install @tailwindcss/oxide-linux-x64-gnu --save-optional
+          else
+            echo "✓ TailwindCSS oxide Linux binary found"
           fi
 
       - name: Run tests with coverage
