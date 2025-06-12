@@ -20,7 +20,14 @@ export class OpenRouterService {
 
   private currentSystemMessage = "";
   private currentUserMessage = "";
-  private currentResponseFormat?: Record<string, unknown>;
+  private currentResponseFormat?: {
+    name: string;
+    schema: {
+      type: "object";
+      properties: Record<string, unknown>;
+      required: string[];
+    };
+  };
   private currentModelName = "qwen/qwen3-235b-a22b:free";
   private currentModelParameters: ModelParameters = {
     temperature: 0.7,
@@ -82,15 +89,21 @@ export class OpenRouterService {
   }
 
   /**
-   * Sets the JSON schema for structured responses
+   * Sets the response format schema for structured JSON output
+   * @param schema - The JSON schema configuration
    */
-  public setResponseFormat(schema: Record<string, unknown>): void {
-    try {
-      this.currentResponseFormat = schema;
-    } catch (error) {
-      this.logger.error(error as Error, { schemaKeys: Object.keys(schema) });
-      throw new OpenRouterError("Invalid JSON schema provided", "INVALID_RESPONSE_FORMAT");
+  public setResponseFormat(schema: {
+    name: string;
+    schema: {
+      type: "object";
+      properties: Record<string, unknown>;
+      required: string[];
+    };
+  }): void {
+    if (!schema.name || !schema.schema) {
+      throw new OpenRouterError("Response format must include name and schema", "INVALID_RESPONSE_FORMAT");
     }
+    this.currentResponseFormat = schema;
   }
 
   /**

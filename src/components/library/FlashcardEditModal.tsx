@@ -175,7 +175,7 @@ export function FlashcardEditModal({ visible, flashcard, onSave, onCancel, loadi
 
           {/* Source info */}
           <div className="text-xs text-muted-foreground p-3 bg-muted/30 rounded-md">
-            <strong>Uwaga:</strong> Edycja tej fiszki zmieni jej źródło na "AI - edytowane".
+            <strong>Uwaga:</strong> Edycja tej fiszki zmieni jej źródło na &quot;AI - edytowane&quot;.
           </div>
         </form>
 

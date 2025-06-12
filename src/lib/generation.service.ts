@@ -105,10 +105,8 @@ Each flashcard should have a "front" (question) and "back" (answer).
         generated_count: generatedCount,
       };
     } catch (error) {
-      const generationDuration = Date.now() - startTime;
-
       // Log error to generation_error_logs
-      await this.logGenerationError(error as Error, command.source_text, generationDuration);
+      await this.logGenerationError(error as Error, command.source_text);
 
       throw error;
     }
@@ -135,15 +133,16 @@ ${sourceText}
       const parsedResponse = JSON.parse(response);
 
       // Transform AI response to our DTO format
-      const flashcards: FlashcardProposalDto[] = parsedResponse.flashcards.map((card: any) => ({
-        front: card.front,
-        back: card.back,
-        source: "ai-full" as const,
-      }));
+      const flashcards: FlashcardProposalDto[] = parsedResponse.flashcards.map(
+        (card: { front: string; back: string }) => ({
+          front: card.front,
+          back: card.back,
+          source: "ai-full" as const,
+        })
+      );
 
       return flashcards;
     } catch (error) {
-      console.error("Error generating flashcards with AI:", error);
       throw new Error(`Failed to generate flashcards: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
   }
@@ -151,7 +150,7 @@ ${sourceText}
   /**
    * Log generation errors to the database
    */
-  private async logGenerationError(error: Error, sourceText: string, generationDuration: number): Promise<void> {
+  private async logGenerationError(error: Error, sourceText: string): Promise<void> {
     try {
       const sourceTextHash = crypto.createHash("md5").update(sourceText).digest("hex");
 

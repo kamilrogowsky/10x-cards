@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import type { GenerateFlashcardsCommand, GenerationCreateResponseDto } from "../../types";
 import type { SupabaseClient } from "../../db/supabase.client";
 import { GenerationService } from "../../lib/generation.service";
 

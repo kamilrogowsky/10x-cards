@@ -2,7 +2,6 @@ import { describe, it, expect } from "vitest";
 import {
   FlashcardCreateSchema,
   FlashcardsCreateCommandSchema,
-  FlashcardUpdateSchema,
   FlashcardsQuerySchema,
   FlashcardIdSchema,
 } from "../flashcardSchemas";

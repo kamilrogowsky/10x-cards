@@ -102,7 +102,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ className }) => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className={`w-full max-w-md mx-auto ${className || ""}`}>
       <Card className="shadow-xl border-0 bg-card/95 backdrop-blur-sm">
         <CardHeader className="space-y-4 text-center">
           <div className="mx-auto w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-sm">

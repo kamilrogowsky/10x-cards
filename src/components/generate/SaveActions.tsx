@@ -4,14 +4,13 @@ import { Save, Check } from "lucide-react";
 import type { FlashcardProposalViewModel } from "../../types";
 
 interface SaveActionsProps {
-  generationId: number;
   proposals: FlashcardProposalViewModel[];
   isSaving: boolean;
   onSaveAll: () => void;
   onSaveAccepted: () => void;
 }
 
-export function SaveActions({ generationId, proposals, isSaving, onSaveAll, onSaveAccepted }: SaveActionsProps) {
+export function SaveActions({ proposals, isSaving, onSaveAll, onSaveAccepted }: SaveActionsProps) {
   const acceptedCount = proposals.filter((p) => p.status === "accepted").length;
   const totalCount = proposals.length;
 

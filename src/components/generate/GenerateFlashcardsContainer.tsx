@@ -15,7 +15,7 @@ export default function GenerateFlashcardsContainer() {
   const [generationId, setGenerationId] = useState<number | null>(null);
   const [lastSaveAction, setLastSaveAction] = useState<"all" | "accepted" | null>(null);
 
-  const { generate, data: generationData, error: generationError, isLoading: isGenerating } = useGenerateFlashcards();
+  const { generate, error: generationError, isLoading: isGenerating } = useGenerateFlashcards();
 
   const {
     save,
@@ -64,7 +64,7 @@ export default function GenerateFlashcardsContainer() {
 
         // Przekształć propozycje z API na ViewModels
         const proposalViewModels: FlashcardProposalViewModel[] = result.flashcards_proposals.map(
-          (proposal: any, index: number) => ({
+          (proposal: { front: string; back: string; source: "ai-full" }, index: number) => ({
             id: `proposal-${index}`,
             front: proposal.front,
             back: proposal.back,
@@ -77,6 +77,8 @@ export default function GenerateFlashcardsContainer() {
         setProposals(proposalViewModels);
       }
     } catch (error) {
+      // Log error for debugging purposes
+      // eslint-disable-next-line no-console
       console.error("Failed to generate flashcards:", error);
     }
   };
@@ -159,7 +161,6 @@ export default function GenerateFlashcardsContainer() {
 
         {proposals.length > 0 && (
           <SaveActions
-            generationId={generationId!}
             proposals={proposals}
             isSaving={isSaving}
             onSaveAll={handleSaveAll}

@@ -167,7 +167,13 @@ export class FlashcardsService {
       }
 
       // Prepare update data, filtering out undefined values
-      const updatePayload: Record<string, any> = {};
+      const updatePayload: {
+        front?: string;
+        back?: string;
+        source?: string;
+        generation_id?: number | null;
+        updated_at?: string;
+      } = {};
 
       if (updateData.front !== undefined) {
         updatePayload.front = updateData.front.trim();

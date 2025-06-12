@@ -6,7 +6,7 @@ import type { SupabaseServerClient } from "./db/supabase.client.ts";
 declare global {
   namespace App {
     interface Locals {
-      supabase: SupabaseServerClient;
+      supabase: SupabaseServerClient<Database>;
       authenticated: boolean;
       user_id?: string;
       user?: {

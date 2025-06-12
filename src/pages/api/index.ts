@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
+import { getHomepageData } from "../../lib/homepage.service";
 import type { HomepageResponseDto } from "../../types";
-import { HomepageService } from "../../lib/homepage.service";
 
 export const prerender = false;
 
@@ -14,7 +14,7 @@ export const prerender = false;
 export const GET: APIRoute = async () => {
   try {
     // Get homepage data from service
-    const homepageData: HomepageResponseDto = await HomepageService.getHomepageData();
+    const homepageData: HomepageResponseDto = await getHomepageData();
 
     return new Response(JSON.stringify(homepageData), {
       status: 200,
