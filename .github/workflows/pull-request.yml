@@ -50,42 +50,27 @@ jobs:
           rm -rf node_modules package-lock.json
           npm cache clean --force
           
-          echo "Installing dependencies with optional dependencies..."
-          npm install
+          echo "Installing dependencies with explicit optional dependencies..."
+          npm config set include optional
+          npm install --include=optional
           
-          echo "Verifying critical binaries are installed..."
-          ls -la node_modules/@rollup/ || echo "No Rollup binaries directory"
-          ls -la node_modules/vite/node_modules/@rollup/ || echo "No Vite's Rollup binaries directory"
-          ls -la node_modules/@tailwindcss/ || echo "No TailwindCSS binaries directory" 
+          echo "Force installing critical platform-specific binaries..."
+          npm install @rollup/rollup-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu --save-optional
           
-          # Check main Rollup installation
-          if [ ! -d "node_modules/@rollup/rollup-linux-x64-gnu" ]; then
-            echo "ERROR: Main Rollup Linux binary missing - installing explicitly"
-            npm install @rollup/rollup-linux-x64-gnu --save-optional
-          else
-            echo "✓ Main Rollup Linux binary found"
-          fi
+          echo "Debugging: Full node_modules structure..."
+          echo "=== Main Rollup binaries ==="
+          ls -la node_modules/@rollup/ || echo "No main @rollup directory"
           
-          # Check Vite's Rollup installation
-          if [ -d "node_modules/vite/node_modules/rollup" ] && [ ! -d "node_modules/vite/node_modules/@rollup/rollup-linux-x64-gnu" ]; then
-            echo "ERROR: Vite's Rollup Linux binary missing - copying from main installation"
-            mkdir -p node_modules/vite/node_modules/@rollup/
-            if [ -d "node_modules/@rollup/rollup-linux-x64-gnu" ]; then
-              cp -r node_modules/@rollup/rollup-linux-x64-gnu node_modules/vite/node_modules/@rollup/
-              echo "✓ Copied Rollup Linux binary to Vite's node_modules"
-            else
-              echo "ERROR: Cannot copy - main Rollup binary not found"
-            fi
-          else
-            echo "✓ Vite's Rollup Linux binary OK or not needed"
-          fi
+          echo "=== Vite's Rollup structure ==="  
+          ls -la node_modules/vite/node_modules/ || echo "No vite/node_modules"
+          find node_modules/vite -name "rollup*" -type d || echo "No rollup directories in vite"
           
-          if [ ! -d "node_modules/@tailwindcss/oxide-linux-x64-gnu" ]; then
-            echo "ERROR: TailwindCSS oxide Linux binary missing - installing explicitly"
-            npm install @tailwindcss/oxide-linux-x64-gnu --save-optional
-          else
-            echo "✓ TailwindCSS oxide Linux binary found"
-          fi
+          echo "=== TailwindCSS binaries ==="
+          ls -la node_modules/@tailwindcss/ || echo "No @tailwindcss directory"
+          
+          echo "=== Checking if binaries exist ==="
+          [ -d "node_modules/@rollup/rollup-linux-x64-gnu" ] && echo "✓ Main Rollup Linux binary found" || echo "✗ Main Rollup Linux binary missing"
+          [ -d "node_modules/@tailwindcss/oxide-linux-x64-gnu" ] && echo "✓ TailwindCSS oxide Linux binary found" || echo "✗ TailwindCSS oxide Linux binary missing"
 
       - name: Run tests with coverage
         run: npm run test:coverage
