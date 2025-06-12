@@ -48,13 +48,20 @@ jobs:
         run: |
           npm ci || (rm -rf node_modules package-lock.json && npm install)
 
-      - name: Verify Rollup installation
+      - name: Verify platform-specific binaries
         run: |
           echo "Checking for Rollup Linux binary..."
           ls -la node_modules/@rollup/ || echo "No Rollup binaries found"
           if [ ! -d "node_modules/@rollup/rollup-linux-x64-gnu" ]; then
             echo "Installing Rollup Linux binary explicitly..."
             npm install @rollup/rollup-linux-x64-gnu --no-save
+          fi
+          
+          echo "Checking for TailwindCSS oxide Linux binary..."
+          ls -la node_modules/@tailwindcss/ || echo "No TailwindCSS binaries found"
+          if [ ! -d "node_modules/@tailwindcss/oxide-linux-x64-gnu" ]; then
+            echo "Installing TailwindCSS oxide Linux binary explicitly..."
+            npm install @tailwindcss/oxide-linux-x64-gnu --no-save
           fi
 
       - name: Run tests with coverage
