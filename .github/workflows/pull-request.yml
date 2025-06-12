@@ -24,8 +24,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Clean npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
-        run: npm install --no-optional --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: Run linting
         run: npm run lint
@@ -46,8 +49,11 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Clean npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
-        run: npm install --no-optional --ignore-scripts
+        run: npm install --ignore-scripts
 
       - name: Run tests with coverage
         run: npm run test:coverage
