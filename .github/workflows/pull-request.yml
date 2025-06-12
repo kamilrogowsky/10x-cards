@@ -22,10 +22,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --ignore-scripts
+        run: npm ci
 
       - name: Run linting
         run: npm run lint
@@ -44,10 +43,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --ignore-scripts
+        run: |
+          npm ci || (rm -rf node_modules package-lock.json && npm install)
+
+      - name: Verify Rollup installation
+        run: |
+          echo "Checking for Rollup Linux binary..."
+          ls -la node_modules/@rollup/ || echo "No Rollup binaries found"
+          if [ ! -d "node_modules/@rollup/rollup-linux-x64-gnu" ]; then
+            echo "Installing Rollup Linux binary explicitly..."
+            npm install @rollup/rollup-linux-x64-gnu --no-save
+          fi
 
       - name: Run tests with coverage
         run: npm run test:coverage
